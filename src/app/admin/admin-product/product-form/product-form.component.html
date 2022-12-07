@@ -6,7 +6,7 @@
       class="form-control"
       id="name"
       name="name"
-      [ngModel]="productData?.name ?? ''"
+      [ngModel]="productData.name"
       #name="ngModel"
       required
       minlength="5"
@@ -22,7 +22,7 @@
       name="description"
       rows="5"
       class="form-control"
-      [ngModel]="productData?.description ?? ''"
+      [ngModel]="productData.description"
       #description="ngModel"
       required
       minlength="20"
@@ -42,7 +42,7 @@
       class="form-control"
       id="imagePath"
       name="imagePath"
-      [ngModel]="productData?.imagePath ?? ''"
+      [ngModel]="productData.imagePath"
       #imagePath="ngModel"
       required
       [pattern]="imagePathRegex"
@@ -84,7 +84,7 @@
         id="price"
         name="price"
         min="1"
-        [ngModel]="productData?.price ?? 1"
+        [ngModel]="productData.price"
         #price="ngModel"
         required
         [pattern]="priceRegex"
