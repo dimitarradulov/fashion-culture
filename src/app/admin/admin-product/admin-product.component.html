@@ -1,0 +1,83 @@
+<button i18n class="btn btn-outline-dark mb-5" routerLink="add">
+  Add new product
+</button>
+
+<table
+  datatable
+  [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger"
+  class="table table-hover"
+>
+  <thead>
+    <tr>
+      <th i18n>Name</th>
+      <th i18n>Category</th>
+      <th i18n>Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody *ngIf="!(loadingService.isLoading | async) && !error; else loading">
+    <tr *ngFor="let product of products">
+      <td>{{ product.name }}</td>
+      <td>{{ product.category }}</td>
+      <td>{{ product.price | currency }}</td>
+      <td>
+        <div>
+          <button
+            i18n
+            [routerLink]="[product.id, 'edit']"
+            class="btn btn-sm btn-outline-dark btn-outline-dark-transparent me-2"
+          >
+            Edit
+          </button>
+          <button
+            i18n
+            class="btn btn-sm btn-outline-danger"
+            (click)="onDelete(modal, product.id)"
+          >
+            Delete
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+
+  <ng-template #loading>
+    <td colspan="4">
+      <div class="text-center">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </td>
+  </ng-template>
+
+  <app-error-alert *ngIf="error" [errorMsg]="error"></app-error-alert>
+</table>
+
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h5 i18n class="modal-title">Are you sure?</h5>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="modal.dismiss(false)"
+    ></button>
+  </div>
+  <div class="modal-footer">
+    <button
+      i18n
+      type="button"
+      class="btn btn-outline-danger"
+      (click)="modal.close(true)"
+    >
+      Yes
+    </button>
+    <button
+      i18n
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss(false)"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

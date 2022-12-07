@@ -1,0 +1,23 @@
+<h2 class="h4 mb-4 heading-color text-center">
+  <span i18n
+    >{categoryName, select, jackets {jackets} hats {hats} sneakers {sneakers}
+    mens {mens} womens {womens}}</span
+  ><span i18n> Collection</span>
+</h2>
+
+<div class="text-center">
+  <app-loading-spinner
+    *ngIf="(loadingService.isLoading | async) && !error"
+  ></app-loading-spinner>
+</div>
+
+<app-error-alert
+  *ngIf="error && !(loadingService.isLoading | async)"
+  [errorMsg]="error"
+></app-error-alert>
+
+<div *ngIf="!(loadingService.isLoading | async) && !error" class="row gy-4">
+  <div *ngFor="let product of categoryProducts" class="col-6 col-md-3">
+    <app-single-product [productData]="product"></app-single-product>
+  </div>
+</div>

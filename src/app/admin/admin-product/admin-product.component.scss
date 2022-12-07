@@ -1,0 +1,21 @@
+.btn-outline-dark.btn-outline-dark-transparent {
+  background-color: transparent;
+
+  &:hover {
+    background-color: #343434;
+    color: #fff;
+  }
+}
+
+.page-item.active .page-link {
+  background-color: #535050;
+  border-color: #535050;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+
+  &:hover {
+    color: #fff;
+  }
+}

@@ -1,0 +1,167 @@
+<div class="text-center mb-between-sections">
+  <h2 i18n class="h4">Profile Details</h2>
+  <p i18n class="my-4">
+    <span class="fw-medium">Email:</span>
+    {{ (authService.user | async)?.email }}
+  </p>
+
+  <div *ngIf="showNewPasswordForm" class="row justify-content-center">
+    <div class="col-md-6 text-start">
+      <form #changePassword="ngForm" (ngSubmit)="onSubmit(changePassword)">
+        <app-error-alert *ngIf="error" [errorMsg]="error"></app-error-alert>
+        <div class="mb-3">
+          <label i18n for="newPassword" class="form-label">New Password</label>
+          <input
+            type="password"
+            class="form-control border border-dark"
+            id="newPassword"
+            name="newPassword"
+            #newPassword="ngModel"
+            ngModel
+            required
+            minlength="6"
+          />
+          <p
+            i18n
+            *ngIf="
+              !newPassword.valid && newPassword.touched && newPassword.value
+            "
+            class="text-danger"
+          >
+            Please enter a valid password! (at least 6 characters)
+          </p>
+          <p
+            i18n
+            *ngIf="
+              !newPassword.valid && newPassword.touched && !newPassword.value
+            "
+            class="text-danger"
+          >
+            This field is required
+          </p>
+        </div>
+        <div class="mb-4">
+          <label i18n for="rePassword" class="form-label"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            class="form-control border border-dark"
+            id="rePassword"
+            name="rePassword"
+            #rePassword="ngModel"
+            ngModel
+            required
+            [pattern]="changePassword.value.newPassword"
+          />
+          <p
+            i18n
+            *ngIf="!rePassword.valid && rePassword.touched && rePassword.value"
+            class="text-danger"
+          >
+            Password does not match!
+          </p>
+          <p
+            i18n
+            *ngIf="!rePassword.valid && rePassword.touched && !rePassword.value"
+            class="text-danger"
+          >
+            This field is required
+          </p>
+        </div>
+        <div class="text-center">
+          <ng-container
+            *ngIf="!isResetPasswordLoading; else resetPasswordLoading"
+          >
+            <button
+              i18n
+              [disabled]="!changePassword.valid"
+              type="submit"
+              class="btn btn-outline-dark me-2"
+            >
+              Save
+            </button>
+            <button
+              i18n
+              type="button"
+              class="btn btn-outline-dark"
+              (click)="showNewPasswordForm = false"
+            >
+              Cancel
+            </button>
+          </ng-container>
+
+          <ng-template #resetPasswordLoading>
+            <app-loading-spinner></app-loading-spinner>
+          </ng-template>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <button
+    i18n
+    *ngIf="!showNewPasswordForm"
+    class="btn btn-outline-dark"
+    (click)="showNewPasswordForm = true"
+  >
+    Change Password
+  </button>
+</div>
+
+<h2 i18n class="h4 text-center mb-4">Orders</h2>
+
+<ng-template #loading>
+  <div class="text-center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="!isOrdersLoading; else loading">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="row pb-2 mb-2 line-bottom">
+        <div class="col">
+          <div i18n class="fw-medium text-start">Name</div>
+        </div>
+        <div class="col">
+          <div i18n class="fw-medium text-center">Quantity</div>
+        </div>
+        <div class="col">
+          <div i18n class="fw-medium text-end">Price</div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="userProducts.length; else noOrders">
+        <div
+          *ngFor="let product of userProducts; let i = index"
+          class="row pb-2 mb-2 line-bottom"
+          [attr.data-cy]="'order-' + i"
+        >
+          <div class="col">
+            <div [attr.data-cy]="'order-' + i + '-name'" class="text-start">
+              {{ product.name }}
+            </div>
+          </div>
+          <div class="col" [attr.data-cy]="'order-' + i + '-quantity'">
+            <div
+              [attr.data-cy]="'order-' + i + '-quantity'"
+              class="text-center"
+            >
+              {{ product.quantity }}
+            </div>
+          </div>
+          <div class="col" [attr.data-cy]="'order-' + i + '-price'">
+            <div [attr.data-cy]="'order-' + i + '-price'" class="text-end">
+              {{ product.price | currency }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noOrders>
+        <p i18n>There are no orders!</p>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

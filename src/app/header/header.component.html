@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+  <div class="container">
+    <a class="navbar-brand heading-color fs-3 fw-bold" routerLink="/"
+      >Fashion Culture</a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      [ngClass]="{ show: isNavbarCollapsed }"
+      id="navbarNav"
+    >
+      <ul class="navbar-nav ms-auto gap-lg-4">
+        <li class="nav-item">
+          <a
+            i18n
+            class="nav-link"
+            data-cy="nav-shop-categories"
+            routerLink="/product/categories"
+            routerLinkActive="active"
+            ><ion-icon class="icon" name="storefront-outline"></ion-icon>Shop</a
+          >
+        </li>
+        <li
+          *ngIf="!(authService.user | async); else authenticated"
+          class="nav-item"
+        >
+          <a
+            i18n
+            class="nav-link"
+            routerLink="/user/sign-in"
+            routerLinkActive="active"
+            ><ion-icon class="icon" name="person-outline"></ion-icon>Sign In</a
+          >
+        </li>
+        <ng-template #authenticated>
+          <li class="nav-item">
+            <a
+              i18n
+              class="nav-link"
+              data-cy="nav-my-profile"
+              routerLink="/user/my-profile"
+              routerLinkActive="active"
+              ><ion-icon class="icon" name="person-outline"></ion-icon>My
+              Profile</a
+            >
+          </li>
+          <div *ngIf="authService.isUserAdmin | async" class="dropdown">
+            <button
+              i18n
+              class="btn bg-transparent dropdown-toggle"
+              type="button"
+              (click)="toggleDropdown = !toggleDropdown"
+              (clickOutside)="toggleDropdown = false"
+            >
+              <ion-icon name="construct-outline"></ion-icon>Admin Panel
+            </button>
+            <ul
+              class="dropdown-menu"
+              [ngClass]="{ show: toggleDropdown }"
+              (click)="toggleDropdown = false"
+            >
+              <li>
+                <a i18n class="dropdown-item" routerLink="/admin/products"
+                  >Manage Products</a
+                >
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+        <li class="nav-item">
+          <a
+            i18n
+            class="nav-link"
+            data-cy="nav-cart"
+            routerLink="/checkout"
+            routerLinkActive="active"
+          >
+            <div class="cart">
+              <ion-icon name="bag-outline" class="cart-bag"></ion-icon>
+              <span data-cy="nav-cart-items-amount" class="cart-items">{{
+                (cartService.cart | async)?.totalQuantity ?? 0
+              }}</span>
+            </div>
+            Cart</a
+          >
+        </li>
+        <li *ngIf="authService.user | async" class="nav-item">
+          <a i18n class="nav-link cursor-pointer" (click)="onLogout()"
+            ><ion-icon class="icon" name="exit-outline"></ion-icon
+            ><span class="d-inline-block d-lg-none">Logout</span></a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,18 @@
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h2 i18n class="h4 text-center mb-4 heading-color">Edit Product</h2>
+    <app-error-alert *ngIf="error" [errorMsg]="error"></app-error-alert>
+    <product-form
+      *ngIf="!(loadingService.isLoading | async); else loading"
+      [selected-category]="product.category!"
+      [action-type]="formActionType.Edit"
+      [product-data]="product"
+      (onSubmit)="onEdit($event)"
+    ></product-form>
+    <ng-template #loading>
+      <div class="text-center">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </ng-template>
+  </div>
+</div>

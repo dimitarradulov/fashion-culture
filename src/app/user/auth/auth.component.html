@@ -1,0 +1,204 @@
+<div class="row justify-content-between">
+  <div class="col-md-5 mb-5 mb-md-0">
+    <h2 i18n class="h4 text-center heading-color">I already have an account</h2>
+    <p i18n class="mb-4 text-center">SIGN IN WITH YOUR EMAIL AND PASSWORD</p>
+    <app-error-alert
+      *ngIf="error && signInForm.submitted"
+      [errorMsg]="error"
+    ></app-error-alert>
+    <form #signInForm="ngForm" (ngSubmit)="onSubmit(signInForm)">
+      <div class="mb-3">
+        <label for="signInEmail" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control border border-dark"
+          data-cy="auth-email"
+          id="signInEmail"
+          name="signInEmail"
+          #signInEmail="ngModel"
+          ngModel
+          required
+          [pattern]="emailRegex"
+        />
+        <p
+          i18n
+          *ngIf="!signInEmail.valid && signInEmail.touched && signInEmail.value"
+          class="text-danger"
+        >
+          Please enter a valid email!
+        </p>
+        <p
+          i18n
+          *ngIf="
+            !signInEmail.valid && signInEmail.touched && !signInEmail.value
+          "
+          class="text-danger"
+        >
+          This field is required
+        </p>
+      </div>
+      <div class="mb-4">
+        <label i18n for="signInPassword" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control border border-dark"
+          data-cy="auth-password"
+          id="signInPassword"
+          name="signInPassword"
+          #signInPassword="ngModel"
+          ngModel
+          required
+          minlength="6"
+        />
+        <p
+          i18n
+          *ngIf="
+            !signInPassword.valid &&
+            signInPassword.touched &&
+            signInPassword.value
+          "
+          class="text-danger"
+        >
+          Please enter a valid password! (at least 6 characters)
+        </p>
+        <p
+          i18n
+          *ngIf="
+            !signInPassword.valid &&
+            signInPassword.touched &&
+            !signInPassword.value
+          "
+          class="text-danger"
+        >
+          This field is required
+        </p>
+      </div>
+      <div class="text-center">
+        <button
+          i18n
+          *ngIf="!isSignInLoading"
+          type="submit"
+          class="btn btn-outline-dark"
+          data-cy="auth-sign-in-btn"
+          [disabled]="!signInForm.valid"
+        >
+          Sign in
+        </button>
+        <app-loading-spinner *ngIf="isSignInLoading"></app-loading-spinner>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-5">
+    <h2 i18n class="h4 text-center heading-color">I DONT HAVE A ACCOUNT</h2>
+    <p i18n class="mb-4 text-center">Sign up with your email and password</p>
+    <app-error-alert
+      *ngIf="error && signUpForm.submitted"
+      [errorMsg]="error"
+    ></app-error-alert>
+    <form #signUpForm="ngForm" (ngSubmit)="onSubmit(signUpForm)">
+      <div class="mb-3">
+        <label i18n for="signUpEmail" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control border border-dark"
+          id="signUpEmail"
+          name="signUpEmail"
+          #signUpEmail="ngModel"
+          ngModel
+          required
+          [pattern]="emailRegex"
+        />
+        <p
+          i18n
+          *ngIf="!signUpEmail.valid && signUpEmail.touched && signUpEmail.value"
+          class="text-danger"
+        >
+          Please enter a valid email!
+        </p>
+        <p
+          i18n
+          *ngIf="
+            !signUpEmail.valid && signUpEmail.touched && !signUpEmail.value
+          "
+          class="text-danger"
+        >
+          This field is required
+        </p>
+      </div>
+      <div class="mb-3">
+        <label i18n for="signUpPassword" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control border border-dark"
+          id="signUpPassword"
+          name="signUpPassword"
+          #signUpPassword="ngModel"
+          ngModel
+          required
+          minlength="6"
+        />
+        <p
+          i18n
+          *ngIf="
+            !signUpPassword.valid &&
+            signUpPassword.touched &&
+            signUpPassword.value
+          "
+          class="text-danger"
+        >
+          Please enter a valid password! (at least 6 characters)
+        </p>
+        <p
+          i18n
+          *ngIf="
+            !signUpPassword.valid &&
+            signUpPassword.touched &&
+            !signUpPassword.value
+          "
+          class="text-danger"
+        >
+          This field is required
+        </p>
+      </div>
+      <div class="mb-4">
+        <label i18n for="rePassword" class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control border border-dark"
+          id="rePassword"
+          name="rePassword"
+          #rePassword="ngModel"
+          ngModel
+          required
+          [pattern]="signUpForm.value.signUpPassword"
+        />
+        <p
+          i18n
+          *ngIf="!rePassword.valid && rePassword.touched && rePassword.value"
+          class="text-danger"
+        >
+          Password does not match!
+        </p>
+        <p
+          i18n
+          *ngIf="!rePassword.valid && rePassword.touched && !rePassword.value"
+          class="text-danger"
+        >
+          This field is required
+        </p>
+      </div>
+      <div class="text-center">
+        <button
+          i18n
+          *ngIf="!isSignUpLoading"
+          type="submit"
+          class="btn btn-outline-dark"
+          [disabled]="!signUpForm.valid"
+        >
+          Sign up
+        </button>
+        <app-loading-spinner *ngIf="isSignUpLoading"></app-loading-spinner>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div
+  class="category category--{{ categoryName }} border border-dark"
+  routerLink="/product/categories/{{ categoryName }}"
+>
+  <div class="category-text border border-dark text-center p-3">
+    <div i18n class="fw-medium fs-5">
+      {categoryName, select, jackets {jackets} hats {hats} sneakers {sneakers}
+      mens {mens} womens {womens}}
+    </div>
+    <div i18n>Shop now</div>
+  </div>
+</div>

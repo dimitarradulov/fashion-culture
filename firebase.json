@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "dist/fashion-culture",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/de/**",
+        "destination": "/de/index.html"
+      },
+      {
+        "source": "**",
+        "destination": "/en/index.html"
+      }
+    ],
+    "i18n": {
+      "root": "/"
+    }
+  }
+}

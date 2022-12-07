@@ -1,0 +1,15 @@
+<div class="quantity">
+  <span
+    data-cy="quantity-left-arrow"
+    class="cursor-pointer"
+    (click)="onQuantityChange('decrease')"
+    >&#10094;</span
+  >
+  <span data-cy="quantity-amount" class="px-2">{{ quantity }}</span>
+  <span
+    data-cy="quantity-right-arrow"
+    class="cursor-pointer"
+    (click)="onQuantityChange('increase')"
+    >&#10095;</span
+  >
+</div>

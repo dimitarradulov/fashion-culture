@@ -1,0 +1,22 @@
+.product-image {
+  padding-block: 15.625rem;
+}
+
+.quantity,
+.price {
+  font-size: 1.125rem;
+}
+
+.description {
+  text-transform: none;
+}
+
+@media screen and (max-width: 370px) {
+  .quantity-container {
+    display: block !important;
+  }
+
+  .quantity {
+    margin-bottom: 1rem;
+  }
+}

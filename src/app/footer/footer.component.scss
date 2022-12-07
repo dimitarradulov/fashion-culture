@@ -1,0 +1,32 @@
+.footer-content {
+  width: 280px;
+  max-width: 100%;
+
+  a {
+    color: #535050;
+  }
+
+  .footer-socials {
+    a {
+      opacity: 0.8;
+
+      &:hover {
+        color: lighten($color: #535050, $amount: 10%);
+      }
+
+      ion-icon {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .footer-links {
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .footer-copyright {
+    opacity: 0.4;
+  }
+}

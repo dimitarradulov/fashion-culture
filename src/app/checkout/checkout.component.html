@@ -1,0 +1,148 @@
+<ng-template #emptyCart>
+  <p i18n class="fs-4 text-center">Your cart is empty!</p>
+</ng-template>
+
+<ng-container *ngIf="cartService.cart | async as cart; else emptyCart">
+  <div class="row pb-2 mb-2 line-bottom">
+    <div class="d-none d-md-block col-md-2">
+      <span i18n class="fw-medium">Product</span>
+    </div>
+    <div class="col-3 col-md-3">
+      <span i18n class="fw-medium">Name</span>
+    </div>
+    <div class="col-3 col-md-3">
+      <span i18n class="fw-medium">Quantity</span>
+    </div>
+    <div class="col-3 col-md-2">
+      <span i18n class="fw-medium">Price</span>
+    </div>
+    <div class="col-3 col-md-2">
+      <span i18n class="fw-medium">Remove</span>
+    </div>
+  </div>
+
+  <checkout-item
+    *ngFor="let product of cart.products"
+    [product]="product"
+  ></checkout-item>
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <span i18n class="fw-medium fs-4 float-end"
+        >Total: {{ cart.totalPrice | currency }}</span
+      >
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="cartService.cart | async">
+  <ng-template #notAuthenticated>
+    <h2 i18n class="h4 text-danger text-center">PLEASE SIGN IN TO PROCEED!</h2>
+  </ng-template>
+
+  <ng-container *ngIf="authService.user | async; else notAuthenticated">
+    <h2 i18n class="h4 text-center mb-4">Delivery Information</h2>
+    <div class="d-flex justify-content-center">
+      <form #orderForm="ngForm" (ngSubmit)="onSubmit(orderForm)">
+        <div *ngIf="error" class="mb-3">
+          <app-error-alert [errorMsg]="error"></app-error-alert>
+        </div>
+        <div class="mb-3">
+          <label i18n for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control border border-dark"
+            id="name"
+            data-cy="checkout-name"
+            name="name"
+            #name="ngModel"
+            ngModel
+            required
+          />
+          <p *ngIf="!name.valid && name.touched" class="text-danger">
+            This field is required!
+          </p>
+        </div>
+        <div class="mb-3">
+          <label i18n for="phoneNumber" class="form-label">Phone Number</label>
+          <input
+            type="text"
+            class="form-control border border-dark"
+            id="phoneNumber"
+            data-cy="checkout-phoneNumber"
+            name="phoneNumber"
+            #phoneNumber="ngModel"
+            ngModel
+            required
+            pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+          />
+          <p
+            i18n
+            *ngIf="phoneNumber.touched && !phoneNumber.value"
+            class="text-danger"
+          >
+            This field is required!
+          </p>
+          <p
+            i18n
+            *ngIf="
+              phoneNumber.touched &&
+              phoneNumber.errors &&
+              phoneNumber.errors['pattern']
+            "
+            class="text-danger"
+          >
+            Invalid phone number!
+          </p>
+        </div>
+        <div class="mb-3">
+          <label i18n for="city" class="form-label">City</label>
+          <input
+            type="text"
+            class="form-control border border-dark"
+            id="city"
+            data-cy="checkout-city"
+            name="city"
+            #city="ngModel"
+            ngModel
+            required
+          />
+          <p i18n *ngIf="city.touched && !city.value" class="text-danger">
+            This field is required!
+          </p>
+        </div>
+        <div class="mb-3">
+          <label i18n for="address" class="form-label">Street Address</label>
+          <input
+            type="text"
+            class="form-control border border-dark"
+            id="address"
+            data-cy="checkout-address"
+            name="address"
+            #address="ngModel"
+            ngModel
+            required
+          />
+          <p i18n *ngIf="address.touched && !address.value" class="text-danger">
+            This field is required!
+          </p>
+        </div>
+        <div class="text-center">
+          <button
+            i18n
+            *ngIf="!(loadingService.isLoading | async); else loading"
+            class="btn btn-outline-dark"
+            data-cy="checkout-orderBtn"
+            [disabled]="!orderForm.valid"
+          >
+            Order
+          </button>
+
+          <ng-template #loading>
+            <app-loading-spinner></app-loading-spinner>
+          </ng-template>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</ng-container>

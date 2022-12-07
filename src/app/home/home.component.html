@@ -1,0 +1,51 @@
+<!-- Best Selling Section -->
+<h2 i18n class="h4 text-center mb-4 heading-color">Best selling</h2>
+
+<div *ngIf="!(loadingService.isLoading | async) && !error" class="row">
+  <div
+    *ngFor="let product of bestSellingProducts"
+    class="col-6 col-md-3 mb-4 mb-md-0"
+  >
+    <app-single-product [productData]="product"></app-single-product>
+  </div>
+</div>
+
+<div *ngIf="(loadingService.isLoading | async) && !error" class="text-center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div
+  *ngIf="!(loadingService.isLoading | async) && error"
+  class="row justify-content-center"
+>
+  <div class="col-md-8">
+    <app-error-alert [errorMsg]="error"></app-error-alert>
+  </div>
+</div>
+
+<!-- Categories Section -->
+<h2 i18n class="h4 text-center mb-4 mt-between-sections heading-color">
+  Categories
+</h2>
+
+<div class="row mb-5">
+  <div class="col-md-4 mb-4 mb-md-0">
+    <category-card [categoryName]="categories.Sneakers"></category-card>
+  </div>
+  <div class="col-md-4 mb-4 mb-md-0">
+    <category-card [categoryName]="categories.Jackets"></category-card>
+  </div>
+  <div class="col-md-4">
+    <category-card [categoryName]="categories.Hats"></category-card>
+  </div>
+  <div class="col-12 mt-4">
+    <div class="row">
+      <div class="col-md-6 mb-4 mb-md-0">
+        <category-card [categoryName]="categories.Mens"></category-card>
+      </div>
+      <div class="col-md-6">
+        <category-card [categoryName]="categories.Womens"></category-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="row pb-2 mb-2 align-items-center">
+  <div class="d-none d-md-block col-md-2">
+    <div
+      class="border border-dark product-image"
+      [style.background]="
+        'linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(' +
+        product.imagePath +
+        ') no-repeat center/cover'
+      "
+    ></div>
+  </div>
+  <div class="col-3 col-md-3">
+    <span>{{ product.name }}</span>
+  </div>
+  <div class="col-3 col-md-3">
+    <quantity-field
+      (quantityChange)="changeProductQuantity($event)"
+      [(quantity)]="product.quantity"
+    ></quantity-field>
+  </div>
+  <div class="col-3 col-md-2">
+    <span>{{ product.price | currency }}</span>
+  </div>
+  <div class="col-3 col-md-2">
+    <ion-icon
+      name="close"
+      (click)="cartService.deleteFromCart(product.id)"
+    ></ion-icon>
+  </div>
+</div>

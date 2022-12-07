@@ -1,0 +1,49 @@
+<div *ngIf="(loadingService.isLoading | async) && !error" class="text-center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<app-error-alert
+  *ngIf="!(loadingService.isLoading | async) && error"
+  [errorMsg]="error"
+></app-error-alert>
+
+<div *ngIf="!(loadingService.isLoading | async) && !error" class="row g-5">
+  <div class="col-md-6">
+    <div
+      class="border border-dark product-image"
+      [style.background]="
+        'url(' + productData.imagePath + ') no-repeat center/cover'
+      "
+    ></div>
+  </div>
+  <div class="col-md-6 align-self-center">
+    <h2 data-cy="product-details-name" class="h4 text-center mb-4">
+      {{ productData.name }}
+    </h2>
+    <p class="description mb-5">
+      {{ productData.description }}
+    </p>
+    <div class="quantity-container d-flex justify-content-between mb-5">
+      <div class="quantity d-flex">
+        <span i18n class="fw-medium me-3">Quantity:</span>
+        <quantity-field [(quantity)]="quantity"></quantity-field>
+      </div>
+      <div class="price fw-medium">
+        <span i18n class="me-1">Price:</span>
+        <span data-cy="product-details-price">{{
+          productData.price | currency
+        }}</span>
+      </div>
+    </div>
+    <div class="text-center">
+      <button
+        data-cy="product-details-addToCart"
+        i18n
+        class="btn btn-outline-dark"
+        (click)="onAddToCart()"
+      >
+        Add To Cart
+      </button>
+    </div>
+  </div>
+</div>

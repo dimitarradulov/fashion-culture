@@ -1,0 +1,114 @@
+<form #productForm="ngForm" (ngSubmit)="onSubmit.emit(productForm.value)">
+  <div class="mb-3">
+    <label i18n for="name" class="form-label">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      [ngModel]="productData?.name ?? ''"
+      #name="ngModel"
+      required
+      minlength="5"
+    />
+    <p i18n *ngIf="!name.valid && name.touched" class="text-danger">
+      Invalid name field (at least 5 characters)!
+    </p>
+  </div>
+  <div class="mb-3">
+    <label i18n for="description" class="form-label">Description</label>
+    <textarea
+      id="description"
+      name="description"
+      rows="5"
+      class="form-control"
+      [ngModel]="productData?.description ?? ''"
+      #description="ngModel"
+      required
+      minlength="20"
+    ></textarea>
+    <p
+      i18n
+      *ngIf="!description.valid && description.touched"
+      class="text-danger"
+    >
+      Invalid description field (at least 20 characters)!
+    </p>
+  </div>
+  <div class="mb-3">
+    <label i18n for="imagePath" class="form-label">Image Path</label>
+    <input
+      type="text"
+      class="form-control"
+      id="imagePath"
+      name="imagePath"
+      [ngModel]="productData?.imagePath ?? ''"
+      #imagePath="ngModel"
+      required
+      [pattern]="imagePathRegex"
+    />
+    <p i18n *ngIf="!imagePath.valid && imagePath.touched" class="text-danger">
+      Invalid image path!
+    </p>
+  </div>
+  <div class="mb-3">
+    <label i18n for="category" class="form-label">Category</label>
+    <select
+      class="form-select"
+      name="category"
+      [(ngModel)]="selectedCategory"
+      #category="ngModel"
+      required
+      pattern="[\w\s]+"
+    >
+      <option [ngValue]="null" disabled>CHOOSE A CATEGORY</option>
+      <option
+        *ngFor="let category of categories"
+        [value]="category"
+        [selected]="selectedCategory === category"
+      >
+        {{ category | uppercase }}
+      </option>
+    </select>
+    <p i18n *ngIf="!category.valid && category.touched" class="text-danger">
+      Please select a category!
+    </p>
+  </div>
+  <div class="mb-4">
+    <label i18n for="price" class="form-label">Price</label>
+    <div class="input-group">
+      <span class="input-group-text">$</span>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        name="price"
+        min="1"
+        [ngModel]="productData?.price ?? 1"
+        #price="ngModel"
+        required
+        [pattern]="priceRegex"
+      />
+    </div>
+    <p i18n *ngIf="!price.valid && price.touched" class="text-danger">
+      Invalid price field! (should be more than 0)
+    </p>
+  </div>
+  <div>
+    <button
+      type="submit"
+      class="btn btn-outline-dark me-2"
+      [disabled]="!productForm.valid"
+    >
+      {{ actionType }}
+    </button>
+    <button
+      i18n
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="location.back()"
+    >
+      Cancel
+    </button>
+  </div>
+</form>

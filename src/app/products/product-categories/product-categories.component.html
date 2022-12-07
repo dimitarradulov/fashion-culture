@@ -1,0 +1,44 @@
+<div *ngIf="!productCategory.isActivated">
+  <div class="text-center">
+    <app-loading-spinner
+      *ngIf="(loadingService.isLoading | async) && !error"
+    ></app-loading-spinner>
+  </div>
+
+  <app-error-alert
+    *ngIf="error && !(loadingService.isLoading | async)"
+    [errorMsg]="error"
+  ></app-error-alert>
+
+  <ng-container *ngIf="!(loadingService.isLoading | async) && !error">
+    <div
+      *ngFor="let category of categories; let i = index"
+      class="row mb-between-sections category"
+      [attr.data-cy]="'category-' + i"
+    >
+      <div class="col-12 text-center">
+        <h2
+          i18n
+          class="h4 mb-4 heading-color d-inline-block cursor-pointer"
+          [routerLink]="['./', category.name]"
+        >
+          {category.name, select, jackets {jackets} hats {hats} sneakers
+          {sneakers} mens {mens} womens {womens}}
+        </h2>
+        <div class="row">
+          <div
+            *ngFor="let product of category.products; let i = index"
+            class="col-6 col-md-3 mb-4 mb-md-0"
+          >
+            <app-single-product
+              [attr.data-cy]="'product-' + i"
+              [productData]="product"
+            ></app-single-product>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<router-outlet #productCategory="outlet"></router-outlet>
